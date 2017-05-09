@@ -1,0 +1,31 @@
+/* CSS declarations go here */
+.private {
+  color:green;
+}
+
+.deprecated {
+  color: red;
+}
+
+#mode-container {
+  margin: 10px;
+  padding: 10px;
+  border-style: solid;
+  border-width: 2px;
+  max-width: 400px;
+  text-align: center;
+}
+
+td, th {
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+tr {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+textarea {
+  height: auto;
+}

@@ -1,0 +1,162 @@
+<head>
+  <title>Registry</title>
+</head>
+
+<body>
+<div class="container">
+  {{> loginButtons}}
+</div>
+ <div id="registry" class="container">
+    <h2>{{_ "Registry"}}</h2>
+    <div id="items-container" class="container">
+      {{> content}}
+    </div>
+  </div>
+</body>
+
+<template name="header">
+ <div id="header" class="container">
+  {{#if current_item}}
+    <h3>{{_ "Current Item"}}: {{get_item_field current_item 'Title'}}</h3>
+  {{else}}
+    {{#if new_item}}
+      <h3>{{_ "Add New Item"}}</h3>
+    {{else}}
+      <h3 class="title">{{_ "Registered Items"}}</h3>
+    {{/if}}
+  {{/if}}
+ </div>
+</template>
+
+<template name="mode">
+<div id="mode-container" class="container">
+  {{#if logged_in}}
+    <div class="btn btn-primary" id="btnAdd">{{_ "Add"}}</div>
+  {{/if}}
+  Filter:
+  <input type="text" id="search_term" value=""/>
+  <div class="btn btn-primary" id="btnAll">{{_ "All"}}</div>
+</div>
+</template>
+
+<template name="content">
+  {{> header}}
+  {{#if new_item}}
+    {{> add_item}}
+  {{else}}
+    {{#if current_item}}
+      {{> item_details}}
+    {{else}}
+      {{> item_list}}
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="add_item">
+  <div class="item form-group" id="newItem">
+    <div>
+        <label>Titel: 
+          <input type="text" size="60" id="add-title" class="form-control" value="" />
+        </label>
+    </div><div>
+        <label>Beschreibung: 
+          <textarea rows="5" cols="60" id="add-description" class="form-control" value="" ></textarea>
+        </label>
+    </div><div>
+        <label>
+        URL: 
+          <input type="url" size="60" id="add-url" class="form-control" value="https://" />
+        </label>
+    </div><div>
+        <label>Status: 
+          <select id="add-status" class="form-control">
+            <option selected value='public'>Öffentlich</option>
+            <option value='private'>Privat</option>
+            <option value='deprecated'>Veraltet</option>
+          </select>
+        </label>
+    </div>
+    <div>
+      <div class="script btn btn-primary" id="btnSaveNewItem">Speichern</div>
+      <div class="script btn btn-primary" id="btnCancelNewItem">Abbruch</div>
+    </div>
+  </div>
+</template>
+
+<template name="item_details">
+{{#if can_modify}}
+  <div class="item form-group" id="changeItem">
+        <div><label>Titel: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
+        <div><label>Beschreibung: <textarea rows="5" cols="60" id="item-description" class="form-control" value="{{current_description}}" ></textarea></label></div>
+        <div><label>URL: <input type="url" size="60" id="item-url" class="form-control" value="{{current_url}}" /></label></div>
+        {{#if is_admin}}
+          <div><label>{{_ 'Owner'}}:
+            <select id="owner" class="form-control">
+              {{#each users}}
+                <option {{selected_user}} value="{{this._id}}">{{this.username}}</option>
+              {{/each}}
+            </select>
+          </label></div> 
+        {{else}}
+          <p>Owner: {{current_owner}}</p>
+        {{/if}}
+        <div>
+        <label>Status: 
+          <select id="status" class="form-control">
+            <option {{selected_status 'public'}} value='public'>Öffentlich</option>
+            <option {{selected_status 'private'}} value='private'>Privat</option>
+            <option {{selected_status 'deprecated'}} value='deprecated'>Veraltet</option>
+          </select>
+        </label>
+  </div>
+    <div class="script btn btn-primary" id="btnSaveChangeItem">Speichern</div>
+      <div class="script btn btn-primary" id="btnCancelChangeItem">Abbruch</div>
+      <button type="button" class="close delete_item">L&ouml;schen</button>
+    </div>
+{{else}}
+  <div class="item_details">
+    <dl>
+      <dt>Beschreibung:</dt><dd>{{current_description}}</dd>
+      <dt>URL:</dt><dd><a href="{{current_url}}" target="_blank">{{current_url}}</a></dd>
+      <dt>Status:</dt><dd>{{current_status}}</dd>
+      <dt>Geh&ouml;rt:</dt><dd>{{current_owner}}</dd>
+      <div class="script btn btn-primary" id="btnCancelChangeItem">Zur&uuml;ck</div>
+   </dl>
+  </div>
+{{/if}}
+</template>
+
+<template name="item_list">
+   <div>
+      {{> mode}}
+    <table>
+    <thead>
+      <tr>
+        <th>{{_ "Title"}}</th>
+        <th>{{_ "Description"}}</th>
+        <th>{{_ "Owner"}}</th>
+        <th>{{_ "Actions"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each items}}
+      <tr class="{{item_status}}">
+        <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
+        <td width="70%">{{Description}}</td>
+        <td>{{doc_owner}}</td>
+        <td>
+          <div id="item_list" class="btn-group">
+            <button type="button" class="btn btn-primary edit_item">Details</button>
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+    </table>
+    <div>
+      <span class="public">&Ouml;ffentlich</span>
+      <span class="private">Privat</span>
+      <span class="deprecated">Veraltet</span>
+    </div>
+  </div>
+</template>
