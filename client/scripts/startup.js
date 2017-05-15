@@ -1,6 +1,6 @@
 // Initialization
 
-Meteor.subscribe("Items");
+// Meteor.subscribe("Items");
 Meteor.subscribe("Users");
 
 Session.set('adding_item', false);

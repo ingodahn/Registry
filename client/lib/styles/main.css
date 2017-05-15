@@ -29,3 +29,11 @@ tr {
 textarea {
   height: auto;
 }
+
+.registryHeading {
+  text-decoration: underline;
+}
+
+.description {
+  max-width: 400px;
+}

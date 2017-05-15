@@ -2,27 +2,25 @@
   <title>Registry</title>
 </head>
 
-<body>
+<template name="main_page">
 <div class="container">
   {{> loginButtons}}
 </div>
  <div id="registry" class="container">
-    <h2>{{_ "Registry"}}</h2>
+    <h2 class="registryHeading">{{_ registry_heading}}</h2>
     <div id="items-container" class="container">
       {{> content}}
     </div>
   </div>
-</body>
+</template>
 
 <template name="header">
  <div id="header" class="container">
   {{#if current_item}}
-    <h3>{{_ "Current Item"}}: {{get_item_field current_item 'Title'}}</h3>
+    <h3>{{_ currentItemType}}: {{get_item_field current_item 'Title'}}</h3>
   {{else}}
     {{#if new_item}}
       <h3>{{_ "Add New Item"}}</h3>
-    {{else}}
-      <h3 class="title">{{_ "Registered Items"}}</h3>
     {{/if}}
   {{/if}}
  </div>
@@ -55,11 +53,11 @@
 <template name="add_item">
   <div class="item form-group" id="newItem">
     <div>
-        <label>Titel: 
+        <label>{{_ 'Title'}}:
           <input type="text" size="60" id="add-title" class="form-control" value="" />
         </label>
     </div><div>
-        <label>Beschreibung: 
+        <label>{{_ 'Description'}}:
           <textarea rows="5" cols="60" id="add-description" class="form-control" value="" ></textarea>
         </label>
     </div><div>
@@ -70,12 +68,15 @@
     </div><div>
         <label>Status: 
           <select id="add-status" class="form-control">
-            <option selected value='public'>Öffentlich</option>
-            <option value='private'>Privat</option>
-            <option value='deprecated'>Veraltet</option>
+            <option selected value='public'>{{_ 'Public'}}</option>
+            <option value='private'>{{_ 'Private'}}</option>
+            <option value='deprecated'>{{_ 'Deprecated'}}</option>
           </select>
         </label>
     </div>
+      <div>
+          {{> add_item_specific}}
+      </div>
     <div>
       <div class="script btn btn-primary" id="btnSaveNewItem">Speichern</div>
       <div class="script btn btn-primary" id="btnCancelNewItem">Abbruch</div>
@@ -86,8 +87,8 @@
 <template name="item_details">
 {{#if can_modify}}
   <div class="item form-group" id="changeItem">
-        <div><label>Titel: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
-        <div><label>Beschreibung: <textarea rows="5" cols="60" id="item-description" class="form-control" value="{{current_description}}" ></textarea></label></div>
+        <div><label>{{_ 'Title'}}: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
+        <div><label>{{_ 'Description'}}: <textarea rows="5" cols="60" id="item-description" class="form-control" value="{{current_description}}" ></textarea></label></div>
         <div><label>URL: <input type="url" size="60" id="item-url" class="form-control" value="{{current_url}}" /></label></div>
         {{#if is_admin}}
           <div><label>{{_ 'Owner'}}:
@@ -98,17 +99,22 @@
             </select>
           </label></div> 
         {{else}}
-          <p>Owner: {{current_owner}}</p>
+            <p><b>{{_ 'Owner'}}:</b> {{current_owner}}</p>
         {{/if}}
         <div>
         <label>Status: 
           <select id="status" class="form-control">
-            <option {{selected_status 'public'}} value='public'>Öffentlich</option>
-            <option {{selected_status 'private'}} value='private'>Privat</option>
-            <option {{selected_status 'deprecated'}} value='deprecated'>Veraltet</option>
+            <option {{selected_status 'public'}} value='public'>{{_ 'Public'}}</option>
+            <option {{selected_status 'private'}} value='private'>{{_ 'Private'}}</option>
+            <option {{selected_status 'deprecated'}} value='deprecated'>{{_ 'Deprecated'}}</option>
           </select>
         </label>
+            <div><dt>{{_ 'Last Modified'}}:</dt><dd>{{last_modified}}</dd></div></div>
   </div>
+    <div>
+        {{> item_details_specific}}
+    </div>
+    <div>
     <div class="script btn btn-primary" id="btnSaveChangeItem">Speichern</div>
       <div class="script btn btn-primary" id="btnCancelChangeItem">Abbruch</div>
       <button type="button" class="close delete_item">L&ouml;schen</button>
@@ -116,10 +122,12 @@
 {{else}}
   <div class="item_details">
     <dl>
-      <dt>Beschreibung:</dt><dd>{{current_description}}</dd>
+      <dt>{{_ 'Description'}}:</dt><dd class="description"><pre>{{current_description}}</pre></dd>
       <dt>URL:</dt><dd><a href="{{current_url}}" target="_blank">{{current_url}}</a></dd>
-      <dt>Status:</dt><dd>{{current_status}}</dd>
-      <dt>Geh&ouml;rt:</dt><dd>{{current_owner}}</dd>
+      <dt>Status:</dt><dd>{{_ current_status}}</dd>
+      <dt>{{_ 'Owner'}}:</dt><dd>{{current_owner}}</dd>
+        <dt>{{_ 'Last Modified'}}:</dt><dd>{{last_modified}}</dd>
+        {{> item_details_specific_print}}
       <div class="script btn btn-primary" id="btnCancelChangeItem">Zur&uuml;ck</div>
    </dl>
   </div>
@@ -142,8 +150,8 @@
     {{#each items}}
       <tr class="{{item_status}}">
         <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
-        <td width="70%">{{Description}}</td>
-        <td>{{doc_owner}}</td>
+        <td width="70%"><pre>{{Description}}</pre></td>
+        <td>{{_ doc_owner}}</td>
         <td>
           <div id="item_list" class="btn-group">
             <button type="button" class="btn btn-primary edit_item">Details</button>
@@ -160,3 +168,28 @@
     </div>
   </div>
 </template>
+
+<template name="add_item_specific">
+    {{> get_specific_fields}}
+</template>
+
+<template name="item_details_specific">
+    {{> get_specific_fields}}
+</template>
+
+<template name="item_details_specific_print">
+    {{> get_specific_fields}}
+</template>
+
+<template name="route_root">
+    {{> yield}}
+</template>
+
+<template name="RegSelect">
+    <h2>{{_ "Please Select Item Type"}}</h2>
+    <ul>
+        <li><a href="./mathcoach">{{_ "MathCoach Question"}}</a></li>
+        <li><a href="/sagecell">{{_ "SageCell Worksheet"}}</a></li>
+    </ul>
+</template>
+

@@ -1,0 +1,56 @@
+<template name="add_item_sagecell">
+    <div>
+        <label>
+            {{_ 'License'}}:
+            <select id="add-license" class="form-control">
+                <option selected value="CC-BY">CC-BY</option>
+                <option value='CC-BY-NC'>CC-BY-NC</option>
+                <option value='CC-BY-SA'>CC-BY-SA</option>
+                <option value='CC-BY-NC-SA'>CC-BY-NC-SA</option>
+                <option value="TBA">{{_ 'To be agreed'}}</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            {{_ 'Language'}}:
+            <select id="add-language" class="form-control">
+                <option selected value="en">{{_ 'English'}}</option>
+                <option value="de">{{_ 'German'}}</option>
+                <option value="fr">{{_ 'French'}}</option>
+                <option value="es">{{_ 'Spanish'}}</option>
+            </select>
+        </label>
+    </div>
+</template>
+
+<template name="item_details_sagecell">
+    <div>
+        <label>
+            {{_ 'License'}}:
+            <select id="add-license" class="form-control">
+                <option {{selected_license 'CC-BY'}} value="CC-BY">CC-BY</option>
+                <option {{selected_license 'CC-BY-NC'}} value='CC-BY-NC'>CC-BY-NC</option>
+                <option {{selected_license 'CC-BY-SA'}} value='CC-BY-SA'>CC-BY-SA</option>
+                <option {{selected_license 'CC-BY-NC-SA'}} value='CC-BY-NC-SA'>CC-BY-NC-SA</option>
+                <option {{selected_license 'TBA'}} value="TBA">{{_ 'To be agreed'}}</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            {{_ 'Language'}}:
+            <select id="add-language" class="form-control">
+                <option {{selected_language 'en'}} value="en">{{_ 'English'}}</option>
+                <option {{selected_language 'de'}} value="de">{{_ 'German'}}</option>
+                <option {{selected_language 'fr'}} value="fr">{{_ 'French'}}</option>
+                <option {{selected_language 'es'}} value="es">{{_ 'Spanish'}}</option>
+            </select>
+        </label>
+    </div>
+</template>
+
+<template name="print_item_details_sagecell">
+    <dt>{{_ 'License'}}:</dt><dd>{{get_license}}</dd>
+    <dt>{{_ 'Language'}}:</dt><dd>{{_ get_language}}</dd>
+</template>

@@ -2,10 +2,24 @@
 
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-// import '../main.html';
-//import '../../imports/startup/startup.js';
 
-// Helpers and Events
+// main_page
+
+Template.main_page.helpers({
+    registry_heading: function() {
+        var itemType=Session.get('itemType');
+        switch(itemType) {
+            case 'mathcoach':
+                return 'MathCoach Questions';
+                break;
+            case 'sagecell':
+                return 'SageCell Worksheets';
+                break;
+            default:
+                return 'Items of Unknown Type'
+        }
+    }
+});
 
 // header
 
@@ -22,7 +36,20 @@ Template.header.helpers({
       return items.findOne({_id: id})[field];
     }
     return 'field not found';
-  }
+  },
+    currentItemType: function() {
+      var itemType=Session.get('itemType');
+      switch(itemType) {
+          case 'mathcoach':
+              return 'Current Question';
+              break;
+          case 'sagecell':
+              return 'Current Worksheet';
+              break;
+          default:
+              return 'Current Item';
+      }
+    }
 });
 
 // mode
@@ -74,25 +101,78 @@ Template.add_item.events({
     console.log(url);
     console.log(status);
     if (title == "") {
-      alert('Das Titel-Feld darf nicht leer sein.');
+      alert('Title must not be empty.');
     } else if (description == "") {
-      alert('Das Beschreibungs-Feld darf nicht leer sein.');
+      alert('Description must not be empty.');
     } else  if (url == "") {
-      alert('Das URL-Feld darf nicht leer sein');
+      alert('URL must not be empty');
     } else {
-      items.insert({
-        Title: title, 
-        Description: description, 
-        URL: url,
-        Status: status,
-        owner: Meteor.userId()
-      });
-      Session.set('mode','home');
+        var itemType=Session.get('itemType');
+        var today=new Date();
+        console.log(today);
+        var item={
+            Title: title,
+            Description: description,
+            URL: url,
+            Status: status,
+            owner: Meteor.userId(),
+            itemType: itemType,
+            last_modified: today
+        }
+        if (itemType == 'mathcoach') {
+            add_item_field(item,'#add-license','license',t);
+            add_item_field(item,'#add-lti','lti',t);
+        }
+        if (itemType == 'sagecell') {
+            add_item_field(item,'#add-license','license',t);
+            add_item_field(item,'#add-language','language',t);
+        }
+        items.insert(item);
+        Session.set('mode','home');
     }
   },
   'click #btnCancelNewItem': function(e,t) {
     Session.set('mode','home');
   }
+});
+
+// add_item_specific
+
+Template.add_item_specific.helpers({
+   get_specific_fields: function() {
+     var itemType =Session.get('itemType');
+     switch(itemType){
+         case 'mathcoach': return Template.add_item_mathcoach;
+         case 'sagecell': return Template.add_item_sagecell;
+     }
+     return '';
+   }
+});
+
+// item_details_specific
+
+Template.item_details_specific.helpers({
+    get_specific_fields: function() {
+        var itemType =Session.get('itemType');
+        switch(itemType){
+            case 'mathcoach': return Template.item_details_mathcoach;
+            case 'sagecell': return Template.item_details_sagecell;
+        }
+        return '';
+    }
+});
+
+// item_details_specific_print
+
+Template.item_details_specific_print.helpers({
+    get_specific_fields: function() {
+        var itemType =Session.get('itemType');
+        switch(itemType){
+            case 'mathcoach': return Template.print_item_details_mathcoach;
+            case 'sagecell': return Template.print_item_details_sagecell;
+        }
+        return '';
+    }
 });
 
 // item_details
@@ -124,7 +204,11 @@ Template.item_details.helpers({
     if (! item_id) {
       return '';
     }
-    owner_id = items.findOne({_id: item_id}).owner;
+    item=items.findOne({_id: item_id});
+    if (! item){
+        return '';
+    }
+    owner_id =item.owner;
     return Meteor.users.findOne({_id: owner_id}).username;
   },
   selected_status: function(s) {
@@ -144,6 +228,19 @@ Template.item_details.helpers({
       return '';
     }
     let status = items.findOne({_id: item_id}).Status;
+    switch(status) {
+        case 'public':
+            return 'Public';
+            break;
+        case 'private':
+            return 'Private';
+            break;
+        case 'deprecated':
+            return 'Deprecated';
+            break;
+        default:
+            return status;
+    }
     return status;
   },
   can_modify: function () {
@@ -151,6 +248,9 @@ Template.item_details.helpers({
       return false;
     }
     let item_id = Session.get('current_item');
+    if (! item_id) {
+        return false;
+    }
     let owner_id = items.findOne({_id: item_id}).owner;
     if (Meteor.userId() == owner_id) {
       return true;
@@ -178,7 +278,19 @@ Template.item_details.helpers({
       return 'selected';
     } 
     return '';
-  }
+  },
+    last_modified: function () {
+        let item_id = Session.get('current_item');
+        if (! item_id) {
+            return '';
+        }
+        var item = items.findOne({_id: item_id});
+        if (item.last_modified) {
+            return item.last_modified.toLocaleString();
+        } else {
+            return '';
+        }
+    }
 });
 
 Template.item_details.events({
@@ -190,23 +302,36 @@ Template.item_details.events({
     let status=t.find('#status').value;
     let owner_select=t.find('#owner');
     if (title == "") {
-      alert('Das Titel-Feld darf nicht leer sein.');
+      alert('Title must not be empty.');
     } else if (description == "") {
-      alert('Das Beschreibungs-Feld darf nicht leer sein.');
+      alert('Description must not be empty.');
     } else  if (url == "") {
-      alert('Das URL-Feld darf nicht leer sein');
+      alert('URL must not be empty.');
     } else {
       let this_id=Session.get('current_item');
+        var today=new Date();
+        var item = {Title: title, Description: description, URL: url, Status: status, last_modified: today};
       if (owner_select) {
-        let owner_value = owner_select.value;
-        items.update(this_id,{$set: {Title: title, Description: description, URL: url, Status: status, owner: owner_value}});
-      } else {
-        items.update(this_id,{$set: {Title: title, Description: description, URL: url, Status: status}});
+        item.owner = owner_select.value;
       }
+      var itemType = Session.get('itemType');
+      console.log(itemType);
+      switch(itemType) {
+          case 'mathcoach':
+            add_item_field(item,'#add-license','license',t);
+            add_item_field(item,'#add-lti','lti',t);
+            break;
+          case 'sagecell':
+              add_item_field(item,'#add-license','license',t);
+              add_item_field(item,'#add-language','language',t);
+          default:
+      }
+      items.update(this_id,{$set: item});
       Session.set('mode','home');
       Session.set('current_item',null);
     }
   } catch(err) {
+      console.log('ERROR Saving Item')
     console.log(err.message);
   }
   },
@@ -226,13 +351,12 @@ Template.item_details.events({
 Template.item_list.helpers({
   items : function(){
     let search_term=Session.get('search_term');
-    
     return items.find(
       {$or: [
         {Title: {$regex: search_term, $options: 'i' }},
         {Description: {$regex: search_term, $options: 'i' }}
       ]}, 
-      { sort: {Title : 1}}
+      { sort: {last_modified : -1}}
     );
   },
   doc_owner: function() {
@@ -259,8 +383,14 @@ Template.item_list.events({
   }
 });
 
+function add_item_field(item,formFieldName,itemFieldName,t) {
+    var itemField=t.find(formFieldName).value;
+    item[itemFieldName]=itemField;
+};
+
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
 
 
+// General functions //

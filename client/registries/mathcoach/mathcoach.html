@@ -1,0 +1,52 @@
+<template name="add_item_mathcoach">
+    <div>
+        <label>
+            {{_ 'License'}}:
+            <select id="add-license" class="form-control">
+                <option selected value="CC-BY">CC-BY</option>
+                <option value='CC-BY-NC'>CC-BY-NC</option>
+                <option value='CC-BY-SA'>CC-BY-SA</option>
+                <option value='CC-BY-NC-SA'>CC-BY-NC-SA</option>
+                <option value="TBA">{{_ 'To be agreed'}}</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            {{_ 'LTI Support'}}:
+            <select id="add-lti" class="form-control">
+                <option value="yes">{{_ 'Yes'}}</option>
+                <option selected value="no">{{_ 'No'}}</option>
+            </select>
+        </label>
+    </div>
+</template>
+
+<template name="item_details_mathcoach">
+    <div>
+        <label>
+            {{_ 'License'}}:
+            <select id="add-license" class="form-control">
+                <option {{selected_license 'CC-BY'}} value="CC-BY">CC-BY</option>
+                <option {{selected_license 'CC-BY-NC'}} value='CC-BY-NC'>CC-BY-NC</option>
+                <option {{selected_license 'CC-BY-SA'}} value='CC-BY-SA'>CC-BY-SA</option>
+                <option {{selected_license 'CC-BY-NC-SA'}} value='CC-BY-NC-SA'>CC-BY-NC-SA</option>
+                <option {{selected_license 'TBA'}} value="TBA">{{_ 'To be agreed'}}</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            {{_ 'LTI Support'}}:
+            <select id="add-lti" class="form-control">
+                <option {{selected_lti 'yes'}} value="yes">{{_ 'Yes'}}</option>
+                <option {{selected_lti 'no'}} value="no">{{_ 'No'}}</option>
+            </select>
+        </label>
+    </div>
+</template>
+
+<template name="print_item_details_mathcoach">
+    <dt>{{_ 'License'}}:</dt><dd>{{get_license}}</dd>
+    <dt>{{_ 'LTI-Support'}}:</dt><dd>{{_ get_lti}}</dd>
+</template>

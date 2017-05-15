@@ -22,3 +22,4 @@ accounts-ui
 session
 tap:i18n
 twbs:bootstrap
+iron:router

@@ -1,11 +1,24 @@
-Registry: MathCoach-Aufgaben
 Current Item: Aktuelle Aufgabe
 Registered Items: Registrierte Aufgaben
 Add New Item: Neue Aufgabe hinzufügen
 Add: Neu
 All: Alle
+Yes: Ja
+No: Nein
+Last Modified: Zuletzt geändert
+Public: Öffentlich
+Private: Privat
+Deprecated: Veraltet
 Title: Titel
 Description: Beschreibung
 Owner: Gehört
+Mine: Mir
 Actions: Aktionen
+License: Lizenz
+To be agreed: Auf Anfrage
+Language: Sprache
+English: Englisch
+French: Französisch
+German: Deutsch
+Spanish: Spanisch
 
