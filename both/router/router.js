@@ -8,7 +8,7 @@ Router.route('/', function() {
 
 Router.route('/:itemType', function() {
     var type=this.params.itemType.toLowerCase();
-    if (['mathcoach','sagecell'].includes(type)) {
+    if (['scripts','mathcoach','sagecell'].includes(type)) {
         Meteor.subscribe("Items",type);
         Session.set('itemType',type);
         this.render("main_page");

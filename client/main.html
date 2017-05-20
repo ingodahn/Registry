@@ -142,6 +142,7 @@
       <tr>
         <th>{{_ "Title"}}</th>
         <th>{{_ "Description"}}</th>
+          {{> list_heading_specific}}
         <th>{{_ "Owner"}}</th>
         <th>{{_ "Actions"}}</th>
       </tr>
@@ -151,6 +152,7 @@
       <tr class="{{item_status}}">
         <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
         <td width="70%"><pre>{{Description}}</pre></td>
+          {{> list_item_specific}}
         <td>{{_ doc_owner}}</td>
         <td>
           <div id="item_list" class="btn-group">
@@ -181,6 +183,10 @@
     {{> get_specific_fields}}
 </template>
 
+<template name="empty">
+
+</template>
+
 <template name="route_root">
     {{> yield}}
 </template>
@@ -188,8 +194,9 @@
 <template name="RegSelect">
     <h2>{{_ "Please Select Item Type"}}</h2>
     <ul>
-        <li><a href="./mathcoach">{{_ "MathCoach Questions"}}</a></li>
+        <li><a href="./scripts">{{_ "Math Scripts"}}</a></li>
         <li><a href="/sagecell">{{_ "SageCell Worksheets"}}</a></li>
+        <li><a href="./mathcoach">{{_ "MathCoach Questions"}}</a></li>
     </ul>
 </template>
 

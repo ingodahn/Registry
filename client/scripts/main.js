@@ -15,6 +15,8 @@ Template.main_page.helpers({
             case 'sagecell':
                 return 'SageCell Worksheets';
                 break;
+            case 'scripts':
+                return 'Math Scripts';
             default:
                 return 'Items of Unknown Type'
         }
@@ -45,6 +47,9 @@ Template.header.helpers({
               break;
           case 'sagecell':
               return 'Current Worksheet';
+              break;
+          case 'scripts':
+              return 'Current Script';
               break;
           default:
               return 'Current Item';
@@ -119,13 +124,21 @@ Template.add_item.events({
             itemType: itemType,
             last_modified: today
         }
-        if (itemType == 'mathcoach') {
-            add_item_field(item,'#add-license','license',t);
-            add_item_field(item,'#add-lti','lti',t);
-        }
-        if (itemType == 'sagecell') {
-            add_item_field(item,'#add-license','license',t);
-            add_item_field(item,'#add-language','language',t);
+        switch(itemType) {
+            case 'mathcoach':
+                add_item_field(item,'#add-license','license',t);
+                add_item_field(item,'#add-lti','lti',t);
+                break;
+            case 'sagecell':
+                add_item_field(item,'#add-license','license',t);
+                add_item_field(item,'#add-language','language',t);
+                break;
+            case 'scripts':
+                add_item_field(item,'#add-author','author',t);
+                add_item_field(item,'#add-license','license',t);
+                add_item_field(item,'#add-language','language',t);
+                break;
+            default:
         }
         items.insert(item);
         Session.set('mode','home');
@@ -142,10 +155,18 @@ Template.add_item_specific.helpers({
    get_specific_fields: function() {
      var itemType =Session.get('itemType');
      switch(itemType){
-         case 'mathcoach': return Template.add_item_mathcoach;
-         case 'sagecell': return Template.add_item_sagecell;
+         case 'mathcoach':
+             return Template.add_item_mathcoach;
+             break;
+         case 'sagecell':
+             return Template.add_item_sagecell;
+             break;
+         case 'scripts':
+             return Template.add_item_scripts;
+             break;
+         default:
+             return '';
      }
-     return '';
    }
 });
 
@@ -155,10 +176,17 @@ Template.item_details_specific.helpers({
     get_specific_fields: function() {
         var itemType =Session.get('itemType');
         switch(itemType){
-            case 'mathcoach': return Template.item_details_mathcoach;
-            case 'sagecell': return Template.item_details_sagecell;
+            case 'mathcoach':
+                return Template.item_details_mathcoach;
+                break;
+            case 'sagecell':
+                return Template.item_details_sagecell;
+                break;
+            case 'scripts':
+                return Template.item_details_scripts;
+            default:
+                return '';
         }
-        return '';
     }
 });
 
@@ -168,10 +196,18 @@ Template.item_details_specific_print.helpers({
     get_specific_fields: function() {
         var itemType =Session.get('itemType');
         switch(itemType){
-            case 'mathcoach': return Template.print_item_details_mathcoach;
-            case 'sagecell': return Template.print_item_details_sagecell;
+            case 'mathcoach':
+                return Template.print_item_details_mathcoach;
+                break;
+            case 'sagecell':
+                return Template.print_item_details_sagecell;
+                break;
+            case 'scripts':
+                return Template.print_item_details_scripts;
+                break;
+            default:
+                return '';
         }
-        return '';
     }
 });
 
@@ -324,6 +360,10 @@ Template.item_details.events({
           case 'sagecell':
               add_item_field(item,'#add-license','license',t);
               add_item_field(item,'#add-language','language',t);
+          case 'scripts':
+              add_item_field(item,'#add-author','author',t);
+              add_item_field(item,'#add-license','license',t);
+              add_item_field(item,'#add-language','language',t);
           default:
       }
       items.update(this_id,{$set: item});
@@ -373,6 +413,27 @@ Template.item_list.helpers({
   },
   item_status: function() {
     return this.Status;
+  },
+  list_heading_specific: function() {
+      let itemType = Session.get('itemType');
+      switch (itemType) {
+          case 'scripts':
+              return Template.list_heading_scripts;
+              break;
+          default:
+              return Template.empty;
+
+      }
+  },
+  list_item_specific: function() {
+      let itemType = Session.get('itemType');
+      switch(itemType) {
+          case 'scripts':
+              return Template.list_item_scripts;
+              break;
+          default:
+              return Template.empty;
+      }
   }
 });
 
