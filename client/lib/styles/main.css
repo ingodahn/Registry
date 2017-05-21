@@ -19,6 +19,7 @@
 td, th {
   margin-left: 10px;
   padding-left: 10px;
+  padding-top: 10px;
 }
 
 tr {
@@ -35,5 +36,5 @@ textarea {
 }
 
 .description {
-  max-width: 400px;
+  max-width: 70%;
 }
