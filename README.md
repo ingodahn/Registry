@@ -1,6 +1,3 @@
-This is a registry for registering URLs with metadata. It has been developen with meteor. It uses the following meteor modules to be added with `meteor add <module>`.
+This is a registry for registering URLs with metadata. It has been developed with Meteor. Currently it has two subregistries: mathcoach and sagecell.
 
-session, tap:i18n, accounts-password, accounts-ui, twbs:bootstrap. 
-
-Don't forget to remove autopublish and insecure.
-
+Mail account data in server/smtp need to be adapted.
