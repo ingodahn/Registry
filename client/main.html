@@ -122,7 +122,7 @@
 {{else}}
   <div class="item_details">
     <dl>
-      <dt>{{_ 'Description'}}:</dt><dd class="description"><pre>{{current_description}}</pre></dd>
+      <dt>{{_ 'Description'}}:</dt><dd class="description">{{current_description}}</dd>
       <dt>URL:</dt><dd><a href="{{current_url}}" target="_blank">{{current_url}}</a></dd>
       <dt>Status:</dt><dd>{{_ current_status}}</dd>
       <dt>{{_ 'Owner'}}:</dt><dd>{{current_owner}}</dd>
@@ -151,7 +151,7 @@
     {{#each items}}
       <tr class="{{item_status}}">
         <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
-        <td width="70%"><pre>{{Description}}</pre></td>
+          <td class="description">{{Description}}</td>
           {{> list_item_specific}}
         <td>{{_ doc_owner}}</td>
         <td>
