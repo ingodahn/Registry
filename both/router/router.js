@@ -3,7 +3,9 @@
  */
 
 Router.route('/', function() {
-    this.render('RegSelect')
+    Meteor.subscribe("AllItems");
+    Session.set('itemType','all');
+    this.render('main_page')
 });
 
 Router.route('/:itemType', function() {
@@ -13,8 +15,9 @@ Router.route('/:itemType', function() {
         Session.set('itemType',type);
         this.render("main_page");
     } else {
-        Session.set('itemType',null);
-        this.render('RegSelect');
+        Meteor.subscribe("AllItems");
+        Session.set('itemType','all');
+        this.render('main_page');
     }
 
 });

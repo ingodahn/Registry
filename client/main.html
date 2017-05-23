@@ -3,11 +3,22 @@
 </head>
 
 <template name="main_page">
-<div class="container">
-  {{> loginButtons}}
-</div>
+    {{> sAlert}}
+    {{#if specificItems}}
+        <div class="container">
+          {{> loginButtons}}
+        </div>
+        <div class="home">
+            <a href="/">{{_ 'All Materials'}}</a>
+        </div>
+        {{/if}}
  <div id="registry" class="container">
-    <h2 class="registryHeading">{{_ registry_heading}}</h2>
+    <h2 class="registryHeading">
+        {{#if specificItems}}
+            <img src="images/{{itemType}}.png"/>
+            {{/if}}
+        {{_ registry_heading}}
+    </h2>
     <div id="items-container" class="container">
       {{> content}}
     </div>
@@ -28,13 +39,16 @@
 
 <template name="mode">
 <div id="mode-container" class="container">
-  {{#if logged_in}}
+  {{#if can_add}}
     <div class="btn btn-primary" id="btnAdd">{{_ "Add"}}</div>
   {{/if}}
     <b>{{_ "Search"}}:</b>
-  <input type="text" id="search_term" value=""/>
-  <div class="btn btn-primary" id="btnAll">{{_ "All"}}</div>
+  <input type="text" id="search_term" value="{{searchTerm}}" size="40"/>
+  <div class="btn btn-primary" id="btnAll">{{_ "New Search"}}</div>
 </div>
+    {{#if allItems}}
+        {{> Branching}}
+        {{/if}}
 </template>
 
 <template name="content">
@@ -87,7 +101,7 @@
 <template name="item_details">
 {{#if can_modify}}
   <div class="item form-group" id="changeItem">
-        <div><label>{{_ 'Title'}}: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
+        <div><label>{{_ 'Title'}}/{{_ 'Link'}}: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
         <div><label>{{_ 'Description'}}: <textarea rows="5" cols="60" id="item-description" class="form-control" value="{{current_description}}" ></textarea></label></div>
         <div><label>URL: <input type="url" size="60" id="item-url" class="form-control" value="{{current_url}}" /></label></div>
         {{#if is_admin}}
@@ -137,37 +151,39 @@
 <template name="item_list">
    <div>
       {{> mode}}
-    <table>
-    <thead>
-      <tr>
-        <th>{{_ "Title"}}</th>
-        <th>{{_ "Description"}}</th>
-          {{> list_heading_specific}}
-        <th>{{_ "Owner"}}</th>
-        <th>{{_ "Actions"}}</th>
-      </tr>
-    </thead>
-    <tbody>
-    {{#each items}}
-      <tr class="{{item_status}}">
-        <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
-          <td class="description">{{Description}}</td>
-          {{> list_item_specific}}
-        <td>{{_ doc_owner}}</td>
-        <td>
-          <div id="item_list" class="btn-group">
-            <button type="button" class="btn btn-primary edit_item">Details</button>
-          </div>
-        </td>
-      </tr>
-    {{/each}}
-    </tbody>
-    </table>
-    <div>
-      <span class="public">{{_ "Public"}}</span>
-      <span class="private">{{_ "Private"}}</span>
-      <span class="deprecated">{{_ "Deprecated"}}</span>
-    </div>
+       {{#if items}}
+        <table>
+        <thead>
+          <tr>
+            <th>{{_ "Title"}}/{{_ 'Link'}}</th>
+            <th>{{_ "Description"}}</th>
+              {{> list_heading_specific}}
+            <th>{{_ "Owner"}}</th>
+            <th>{{_ "Actions"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each items}}
+          <tr class="{{item_status}}">
+            <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
+              <td class="description">{{Description}}</td>
+              {{> list_item_specific}}
+            <td>{{_ doc_owner}}</td>
+            <td>
+              <div id="item_list" class="btn-group">
+                <button type="button" class="btn btn-primary edit_item">Details</button>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+        </tbody>
+        </table>
+        <div>
+          <span class="public">{{_ "Public"}}</span>
+          <span class="private">{{_ "Private"}}</span>
+          <span class="deprecated">{{_ "Deprecated"}}</span>
+        </div>
+           {{/if}}
   </div>
 </template>
 
@@ -191,12 +207,16 @@
     {{> yield}}
 </template>
 
-<template name="RegSelect">
-    <h2>{{_ "Please Select Item Type"}}</h2>
-    <ul>
-        <li><a href="./scripts">{{_ "Math Scripts"}}</a></li>
-        <li><a href="/sagecell">{{_ "SageCell Worksheets"}}</a></li>
-        <li><a href="./mathcoach">{{_ "MathCoach Questions"}}</a></li>
-    </ul>
+<template name="Branching">
+    <div>
+        <span>
+            <a href="./scripts"><img src="/images/scripts.png" width="70px"/> {{_ "NetMath Scripts"}}</a>
+        </span>
+        <span>
+            <a href="/sagecell"><img src="./images/sagecell.png" width="50px"/> {{_ "SageCell Worksheets"}}</a>
+        </span>
+        <span>
+            <a href="./mathcoach"><img src="./images/mathcoach.png" width="70px"/> {{_ "MathCoach Questions"}}</a>
+        </span>
+    </div>
 </template>
-
