@@ -60,13 +60,22 @@ Template.header.helpers({
 // mode
 
 Template.mode.helpers({
-  logged_in: function() {
-    if (! Meteor.userId()) {
-      return false;
-    } else {
+  can_add: function() {
+      let itemType=Session.get('itemType');
+    if (Meteor.userId() && itemType != 'all') {
       return true;
+    } else {
+      return false;
     }
-  }
+  },
+    searchTerm: function() {
+      let searchTerm=Session.get('search_term');
+      if (searchTerm) {
+          return searchTerm;
+      } else {
+          return '';
+      }
+    }
 });
 
 Template.mode.events({
@@ -174,7 +183,8 @@ Template.add_item_specific.helpers({
 
 Template.item_details_specific.helpers({
     get_specific_fields: function() {
-        var itemType =Session.get('itemType');
+        let item=items.findOne({_id: Session.get('current_item')});
+        let itemType =item.itemType;
         switch(itemType){
             case 'mathcoach':
                 return Template.item_details_mathcoach;
@@ -194,7 +204,8 @@ Template.item_details_specific.helpers({
 
 Template.item_details_specific_print.helpers({
     get_specific_fields: function() {
-        var itemType =Session.get('itemType');
+        let item=items.findOne({_id: Session.get('current_item')});
+        let itemType =item.itemType;
         switch(itemType){
             case 'mathcoach':
                 return Template.print_item_details_mathcoach;
@@ -389,15 +400,26 @@ Template.item_details.events({
 // item_list
 
 Template.item_list.helpers({
-  items : function(){
-    let search_term=Session.get('search_term');
-    return items.find(
-      {$or: [
-        {Title: {$regex: search_term, $options: 'i' }},
-        {Description: {$regex: search_term, $options: 'i' }}
-      ]}, 
-      { sort: {last_modified : -1}}
-    );
+  items : function() {
+      let search_term = Session.get('search_term');
+      let itemType = Session.get('itemType');
+      if (itemType == 'all' && search_term.length < 3) {
+          return [];
+      }
+      let itemList = items.find(
+          {
+              $or: [
+                  {Title: {$regex: search_term, $options: 'i'}},
+                  {Description: {$regex: search_term, $options: 'i'}}
+              ]
+          },
+          {sort: {last_modified: -1}}
+      );
+      if (itemList.count() == 0) {
+          alert("Nothing found");
+          return false;
+      };
+      return itemList;
   },
   doc_owner: function() {
     if (Meteor.userId() == this.owner) {
@@ -420,6 +442,9 @@ Template.item_list.helpers({
           case 'scripts':
               return Template.list_heading_scripts;
               break;
+          case 'all':
+              return Template.list_heading_all;
+              break;
           default:
               return Template.empty;
 
@@ -431,6 +456,9 @@ Template.item_list.helpers({
           case 'scripts':
               return Template.list_item_scripts;
               break;
+          case 'all':
+              return Template.list_item_all;
+              break;
           default:
               return Template.empty;
       }
@@ -441,6 +469,7 @@ Template.item_list.events({
   'click .edit_item': function(e,t) {
     Session.set('mode','editing');
     Session.set('current_item',this._id);
+    // Session.set('itemType',this.itemType);
   }
 });
 

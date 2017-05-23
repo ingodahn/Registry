@@ -28,11 +28,11 @@
 
 <template name="mode">
 <div id="mode-container" class="container">
-  {{#if logged_in}}
+  {{#if can_add}}
     <div class="btn btn-primary" id="btnAdd">{{_ "Add"}}</div>
   {{/if}}
     <b>{{_ "Search"}}:</b>
-  <input type="text" id="search_term" value=""/>
+  <input type="text" id="search_term" value="{{searchTerm}}" size="40"/>
   <div class="btn btn-primary" id="btnAll">{{_ "All"}}</div>
 </div>
 </template>
@@ -137,37 +137,39 @@
 <template name="item_list">
    <div>
       {{> mode}}
-    <table>
-    <thead>
-      <tr>
-        <th>{{_ "Title"}}</th>
-        <th>{{_ "Description"}}</th>
-          {{> list_heading_specific}}
-        <th>{{_ "Owner"}}</th>
-        <th>{{_ "Actions"}}</th>
-      </tr>
-    </thead>
-    <tbody>
-    {{#each items}}
-      <tr class="{{item_status}}">
-        <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
-          <td class="description">{{Description}}</td>
-          {{> list_item_specific}}
-        <td>{{_ doc_owner}}</td>
-        <td>
-          <div id="item_list" class="btn-group">
-            <button type="button" class="btn btn-primary edit_item">Details</button>
-          </div>
-        </td>
-      </tr>
-    {{/each}}
-    </tbody>
-    </table>
-    <div>
-      <span class="public">{{_ "Public"}}</span>
-      <span class="private">{{_ "Private"}}</span>
-      <span class="deprecated">{{_ "Deprecated"}}</span>
-    </div>
+       {{#if items}}
+        <table>
+        <thead>
+          <tr>
+            <th>{{_ "Title"}}</th>
+            <th>{{_ "Description"}}</th>
+              {{> list_heading_specific}}
+            <th>{{_ "Owner"}}</th>
+            <th>{{_ "Actions"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{#each items}}
+          <tr class="{{item_status}}">
+            <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
+              <td class="description">{{Description}}</td>
+              {{> list_item_specific}}
+            <td>{{_ doc_owner}}</td>
+            <td>
+              <div id="item_list" class="btn-group">
+                <button type="button" class="btn btn-primary edit_item">Details</button>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+        </tbody>
+        </table>
+        <div>
+          <span class="public">{{_ "Public"}}</span>
+          <span class="private">{{_ "Private"}}</span>
+          <span class="deprecated">{{_ "Deprecated"}}</span>
+        </div>
+           {{/if}}
   </div>
 </template>
 
@@ -192,11 +194,22 @@
 </template>
 
 <template name="RegSelect">
+    <div class="container">
     <h2>{{_ "Please Select Item Type"}}</h2>
-    <ul>
-        <li><a href="./scripts">{{_ "Math Scripts"}}</a></li>
-        <li><a href="/sagecell">{{_ "SageCell Worksheets"}}</a></li>
-        <li><a href="./mathcoach">{{_ "MathCoach Questions"}}</a></li>
-    </ul>
+    <div>
+        <span>
+            <a href="./scripts"><img src="/images/scripts.png" width="70px"/> {{_ "Math Scripts"}}</a>
+        </span>
+        <span>
+            <a href="/sagecell"><img src="./images/sagecell.png" width="50px"/> {{_ "SageCell Worksheets"}}</a>
+        </span>
+        <span>
+            <a href="./mathcoach"><img src="./images/mathcoach.png" width="70px"/> {{_ "MathCoach Questions"}}</a>
+        </span>
+    </div>
+    <div>
+        {{> content}}
+    </div>
+    </div>
 </template>
 
