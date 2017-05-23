@@ -3,11 +3,22 @@
 </head>
 
 <template name="main_page">
-<div class="container">
-  {{> loginButtons}}
-</div>
+    {{> sAlert}}
+    {{#if specificItems}}
+        <div class="container">
+          {{> loginButtons}}
+        </div>
+        <div class="home">
+            <a href="/">{{_ 'All Materials'}}</a>
+        </div>
+        {{/if}}
  <div id="registry" class="container">
-    <h2 class="registryHeading">{{_ registry_heading}}</h2>
+    <h2 class="registryHeading">
+        {{#if specificItems}}
+            <img src="images/{{itemType}}.png"/>
+            {{/if}}
+        {{_ registry_heading}}
+    </h2>
     <div id="items-container" class="container">
       {{> content}}
     </div>
@@ -33,8 +44,11 @@
   {{/if}}
     <b>{{_ "Search"}}:</b>
   <input type="text" id="search_term" value="{{searchTerm}}" size="40"/>
-  <div class="btn btn-primary" id="btnAll">{{_ "All"}}</div>
+  <div class="btn btn-primary" id="btnAll">{{_ "New Search"}}</div>
 </div>
+    {{#if allItems}}
+        {{> Branching}}
+        {{/if}}
 </template>
 
 <template name="content">
@@ -87,7 +101,7 @@
 <template name="item_details">
 {{#if can_modify}}
   <div class="item form-group" id="changeItem">
-        <div><label>{{_ 'Title'}}: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
+        <div><label>{{_ 'Title'}}/{{_ 'Link'}}: <input type="text" size="60" id="item-title" class="form-control" value="{{current_title}}" /></label></div>
         <div><label>{{_ 'Description'}}: <textarea rows="5" cols="60" id="item-description" class="form-control" value="{{current_description}}" ></textarea></label></div>
         <div><label>URL: <input type="url" size="60" id="item-url" class="form-control" value="{{current_url}}" /></label></div>
         {{#if is_admin}}
@@ -141,7 +155,7 @@
         <table>
         <thead>
           <tr>
-            <th>{{_ "Title"}}</th>
+            <th>{{_ "Title"}}/{{_ 'Link'}}</th>
             <th>{{_ "Description"}}</th>
               {{> list_heading_specific}}
             <th>{{_ "Owner"}}</th>
@@ -193,12 +207,10 @@
     {{> yield}}
 </template>
 
-<template name="RegSelect">
-    <div class="container">
-    <h2>{{_ "Please Select Item Type"}}</h2>
+<template name="Branching">
     <div>
         <span>
-            <a href="./scripts"><img src="/images/scripts.png" width="70px"/> {{_ "Math Scripts"}}</a>
+            <a href="./scripts"><img src="/images/scripts.png" width="70px"/> {{_ "NetMath Scripts"}}</a>
         </span>
         <span>
             <a href="/sagecell"><img src="./images/sagecell.png" width="50px"/> {{_ "SageCell Worksheets"}}</a>
@@ -207,9 +219,4 @@
             <a href="./mathcoach"><img src="./images/mathcoach.png" width="70px"/> {{_ "MathCoach Questions"}}</a>
         </span>
     </div>
-    <div>
-        {{> content}}
-    </div>
-    </div>
 </template>
-

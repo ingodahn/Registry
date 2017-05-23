@@ -16,10 +16,24 @@ Template.main_page.helpers({
                 return 'SageCell Worksheets';
                 break;
             case 'scripts':
-                return 'Math Scripts';
+                return 'NetMath Scripts';
+                break;
+            case 'all':
+                return 'Teaching and Learning Math';
+                break;
             default:
                 return 'Items of Unknown Type'
         }
+    },
+    specificItems: function() {
+        if (Session.equals('itemType','all')) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+    itemType: function() {
+        return Session.get('itemType');
     }
 });
 
@@ -75,6 +89,9 @@ Template.mode.helpers({
       } else {
           return '';
       }
+    },
+    allItems: function() {
+      return Session.equals('itemType','all');
     }
 });
 
@@ -349,11 +366,11 @@ Template.item_details.events({
     let status=t.find('#status').value;
     let owner_select=t.find('#owner');
     if (title == "") {
-      alert('Title must not be empty.');
+      sAlert.error('Der Titel darf nicht leer sein - Title must not be empty.',{position: 'top'});
     } else if (description == "") {
-      alert('Description must not be empty.');
+      sAlert.error('Die Beschreibung darf nicht leer sein - Description must not be empty.',{position: 'top'});
     } else  if (url == "") {
-      alert('URL must not be empty.');
+      sAlert.error('Bitte geben Sie eine gültige URL ein - URL must not be valid.',{position: 'top'});
     } else {
       let this_id=Session.get('current_item');
         var today=new Date();
@@ -383,7 +400,7 @@ Template.item_details.events({
     }
   } catch(err) {
       console.log('ERROR Saving Item')
-    console.log(err.message);
+    sAlert.error(err.message);
   }
   },
   'click #btnCancelChangeItem': function(e,t) {
@@ -416,7 +433,7 @@ Template.item_list.helpers({
           {sort: {last_modified: -1}}
       );
       if (itemList.count() == 0) {
-          alert("Nothing found");
+          sAlert.info('Nichts gefunden - Nothing found',{position: 'top'});
           return false;
       };
       return itemList;

@@ -154,6 +154,10 @@
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/reactive-dict/1.1.8/web.browser/reactive-dict-tests.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/iron_url/1.1.0/web.browser/lib/url.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/reactive-dict/1.1.8/web.browser/migration.js" />
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert-collection.js" />
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert-template.js" />
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert-default.css" />
+        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/random/1.0.10/web.browser/random_tests.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/random/1.0.10/web.browser/deprecated.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/random/1.0.10/web.browser/random.js" />
@@ -379,6 +383,10 @@
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/reactive-dict/1.1.8/web.browser/reactive-dict-tests.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/iron_url/1.1.0/web.browser/lib/url.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/reactive-dict/1.1.8/web.browser/migration.js" />
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert-collection.js" />
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert-template.js" />
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert-default.css" />
+      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/juliancwirko_s-alert/3.2.0/web.browser/client/s-alert.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/random/1.0.10/web.browser/random_tests.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/random/1.0.10/web.browser/deprecated.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/random/1.0.10/web.browser/random.js" />
