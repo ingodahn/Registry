@@ -1,4 +1,9 @@
 /* CSS declarations go here */
+.registryHeading {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
 .private {
   color:green;
 }
@@ -32,10 +37,6 @@ textarea {
   height: auto;
 }
 
-.registryHeading {
-  text-decoration: underline;
-}
-
 .description {
   max-width: 70%;
   white-space: pre-wrap;
@@ -47,4 +48,8 @@ pre {
 
 .home {
   float:right;
+}
+
+.itemtype {
+  margin: 5px;
 }

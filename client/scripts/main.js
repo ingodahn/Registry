@@ -366,11 +366,11 @@ Template.item_details.events({
     let status=t.find('#status').value;
     let owner_select=t.find('#owner');
     if (title == "") {
-      sAlert.error('Der Titel darf nicht leer sein - Title must not be empty.',{position: 'top'});
+      sAlert.error('Der Titel darf nicht leer sein - Title must not be empty.',{position: 'bottom'});
     } else if (description == "") {
-      sAlert.error('Die Beschreibung darf nicht leer sein - Description must not be empty.',{position: 'top'});
+      sAlert.error('Die Beschreibung darf nicht leer sein - Description must not be empty.',{position: 'bottom'});
     } else  if (url == "") {
-      sAlert.error('Bitte geben Sie eine gültige URL ein - URL must not be valid.',{position: 'top'});
+      sAlert.error('Bitte geben Sie eine gültige URL ein - URL must not be valid.',{position: 'bottom'});
     } else {
       let this_id=Session.get('current_item');
         var today=new Date();
@@ -433,7 +433,7 @@ Template.item_list.helpers({
           {sort: {last_modified: -1}}
       );
       if (itemList.count() == 0) {
-          sAlert.info('Nichts gefunden - Nothing found',{position: 'top'});
+          sAlert.info('Nichts gefunden - Nothing found',{position: 'bottom'});
           return false;
       };
       return itemList;

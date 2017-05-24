@@ -28,10 +28,10 @@
 <template name="header">
  <div id="header" class="container">
   {{#if current_item}}
-    <h3>{{_ currentItemType}}: {{get_item_field current_item 'Title'}}</h3>
+    <h3 class="subheading">{{_ currentItemType}}: {{get_item_field current_item 'Title'}}</h3>
   {{else}}
     {{#if new_item}}
-      <h3>{{_ "Add New Item"}}</h3>
+      <h3 class="subheading">{{_ "Add New Item"}}</h3>
     {{/if}}
   {{/if}}
  </div>
@@ -176,13 +176,16 @@
             </td>
           </tr>
         {{/each}}
+        <tr>
+            <td></td>
+            <td>
+                <span class="public">{{_ "Public"}}</span>
+                <span class="private">{{_ "Private"}}</span>
+                <span class="deprecated">{{_ "Deprecated"}}</span>
+            </td>
+        </tr>
         </tbody>
         </table>
-        <div>
-          <span class="public">{{_ "Public"}}</span>
-          <span class="private">{{_ "Private"}}</span>
-          <span class="deprecated">{{_ "Deprecated"}}</span>
-        </div>
            {{/if}}
   </div>
 </template>
@@ -209,13 +212,14 @@
 
 <template name="Branching">
     <div>
-        <span>
+        <h4>{{_ 'Restrict Search'}}:</h4>
+        <span class="itemtype" style="margin-right: 15px">
             <a href="./scripts"><img src="/images/scripts.png" width="70px"/> {{_ "NetMath Scripts"}}</a>
         </span>
-        <span>
+        <span class="itemtype">
             <a href="/sagecell"><img src="./images/sagecell.png" width="50px"/> {{_ "SageCell Worksheets"}}</a>
         </span>
-        <span>
+        <span class="itemtype">
             <a href="./mathcoach"><img src="./images/mathcoach.png" width="70px"/> {{_ "MathCoach Questions"}}</a>
         </span>
     </div>
