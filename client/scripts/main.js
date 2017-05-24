@@ -379,7 +379,6 @@ Template.item_details.events({
         item.owner = owner_select.value;
       }
       var itemType = Session.get('itemType');
-      console.log(itemType);
       switch(itemType) {
           case 'mathcoach':
             add_item_field(item,'#add-license','license',t);
@@ -388,10 +387,12 @@ Template.item_details.events({
           case 'sagecell':
               add_item_field(item,'#add-license','license',t);
               add_item_field(item,'#add-language','language',t);
+              break;
           case 'scripts':
               add_item_field(item,'#add-author','author',t);
               add_item_field(item,'#add-license','license',t);
               add_item_field(item,'#add-language','language',t);
+              break;
           default:
       }
       items.update(this_id,{$set: item});
