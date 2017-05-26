@@ -34,6 +34,19 @@ Template.main_page.helpers({
     },
     itemType: function() {
         return Session.get('itemType');
+    },
+    is_admin: function() {
+        if (! Meteor.userId()) {
+            return false;
+        }
+        let user=Meteor.users.findOne({_id: Meteor.userId()});
+        if (! user) {
+            return false;
+        }
+        if (user.username == 'admin') {
+            return true;
+        }
+        return false;
     }
 });
 
@@ -127,10 +140,6 @@ Template.add_item.events({
     let description=t.find('#add-description').value;
     let url=t.find('#add-url').value;
     let status=t.find('#add-status').value;
-    console.log(title);
-    console.log(description);
-    console.log(url);
-    console.log(status);
     if (title == "") {
       alert('Title must not be empty.');
     } else if (description == "") {
@@ -489,6 +498,44 @@ Template.item_list.events({
     Session.set('current_item',this._id);
     // Session.set('itemType',this.itemType);
   }
+});
+
+// Backup
+
+Template.Backup.helpers({
+    backupAll : function() {
+        let deny='Admin only';
+        if (! Meteor.userId()) {
+            return deny;
+        }
+        let user=Meteor.users.findOne({_id: Meteor.userId()});
+        if (! user) {
+            return deny;
+        }
+        if (user.username != 'admin') {
+            return deny;
+        }
+        let backup = {};
+        let allItems=[];
+        items.find({}).forEach(
+            function(doc) {
+                allItems.push(doc);
+            }
+        );
+        let allUsers = [];
+        Meteor.users.find({}).forEach(
+            function(u) {
+                allUsers.push(u);
+            }
+        );
+        backup.items=allItems;
+        backup.users=allUsers;
+        let date = new Date();
+        backup.date=date;
+        // return JSON.stringify(backup,null,"\t");
+        let backupData=JSON.stringify(backup,null,"\t");
+        download(backupData,"regBackup.js","application/json");
+    }
 });
 
 function add_item_field(item,formFieldName,itemFieldName,t) {

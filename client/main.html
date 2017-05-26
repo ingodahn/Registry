@@ -224,3 +224,13 @@
         </span>
     </div>
 </template>
+
+<template name="Backup">
+    <script src='//js.zapjs.com/js/download.js'></script>
+    <div class="container">
+        {{> loginButtons}}
+    </div>
+    <pre id="backup">
+    {{backupAll}}
+    </pre>
+</template>

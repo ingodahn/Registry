@@ -9,15 +9,23 @@ Router.route('/', function() {
 });
 
 Router.route('/:itemType', function() {
-    var type=this.params.itemType.toLowerCase();
+    let type=this.params.itemType.toLowerCase();
     if (['scripts','mathcoach','sagecell'].includes(type)) {
         Meteor.subscribe("Items",type);
         Session.set('itemType',type);
         this.render("main_page");
     } else {
-        Meteor.subscribe("AllItems");
-        Session.set('itemType','all');
-        this.render('main_page');
+        switch(type) {
+            case 'backup':
+                Meteor.subscribe("AllItems");
+                Session.set('itemType','all');
+                this.render('Backup');
+                break;
+            default:
+                Meteor.subscribe("AllItems");
+                Session.set('itemType','all');
+                this.render('main_page');
+        }
     }
 
 });
