@@ -176,6 +176,7 @@
             </td>
           </tr>
         {{/each}}
+        {{#if logged_in}}
         <tr>
             <td></td>
             <td>
@@ -184,6 +185,7 @@
                 <span class="deprecated">{{_ "Deprecated"}}</span>
             </td>
         </tr>
+        {{/if}}
         </tbody>
         </table>
            {{/if}}

@@ -489,6 +489,12 @@ Template.item_list.helpers({
           default:
               return Template.empty;
       }
+  },
+  logged_in: function() {
+      if (Meteor.userId()) {
+          return true;
+      }
+      return false;
   }
 });
 
