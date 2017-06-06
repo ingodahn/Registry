@@ -22,6 +22,7 @@ Meteor.startup(function () {
           {$or: [
             {itemType: itemType, owner: this.userId},
             {itemType: itemType, Status: 'public'},
+              {itemType: itemType, Status: 'deprecated'},
           ]},{fields: {}}
         );
         break;
@@ -53,6 +54,7 @@ Meteor.startup(function () {
                     {$or: [
                         {owner: this.userId},
                         {Status: 'public'},
+                        {Status: 'deprecated'},
                     ]},{fields: {}}
                 );
                 break;
