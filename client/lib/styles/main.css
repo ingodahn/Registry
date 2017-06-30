@@ -37,7 +37,7 @@ textarea {
   height: auto;
 }
 
-.description {
+.description, .documentation{
   max-width: 70%;
   white-space: pre-wrap;
 }

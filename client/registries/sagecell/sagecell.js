@@ -24,6 +24,17 @@ Template.item_details_sagecell.helpers({
             return 'selected';
         }
         return '';
+    },
+    get_documentation: function() {
+        let item_id = Session.get('current_item');
+        if (! item_id) {
+            return '';
+        }
+        let documentation = items.findOne({_id: item_id}).documentation;
+        if (documentation) {
+            return documentation;
+        }
+        return '';
     }
 });
 
@@ -54,6 +65,17 @@ Template.print_item_details_sagecell.helpers({
         var langLong=languageMap[language];
         if (langLong) {
             return langLong;
+        }
+        return '';
+    },
+    get_documentation: function () {
+        let item_id = Session.get('current_item');
+        if (! item_id) {
+            return '';
+        }
+        let documentation = items.findOne({_id: item_id}).documentation;
+        if (documentation) {
+            return documentation;
         }
         return '';
     }

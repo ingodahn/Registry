@@ -2,7 +2,6 @@
 Meteor.startup(function () {
   Meteor.publish("Items", function(itemType) {
     var current_user_role='none';
-    // var itemType='mathcoach';
     if (this.userId) {
       if (Meteor.users.findOne({_id:this.userId}).username == 'admin') {
         current_user_role = 'admin';
@@ -14,7 +13,6 @@ Meteor.startup(function () {
     }
     switch(current_user_role) {
       case 'admin':
-        // return items.find({itemType: itemType},{fields: {Title: 1, Description: 1, URL: 1, Status: 1, owner:1, last_modified: 1, license:1, lti: 1}});
           return items.find({itemType: itemType},{fields: {}});
         break;
       case 'logged_in':

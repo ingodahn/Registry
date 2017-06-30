@@ -77,7 +77,7 @@ Template.print_item_details_scripts.helpers({
             return author;
         }
         return '';
-}
+    }
 });
 
 Template.list_item_scripts.helpers({

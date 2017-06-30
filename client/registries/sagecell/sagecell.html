@@ -3,8 +3,8 @@
         <label>
             {{_ 'License'}}:
             <select id="add-license" class="form-control">
-                <option selected value="CC-BY">CC-BY</option>
-                <option value='CC-BY-NC'>CC-BY-NC</option>
+                <option value="CC-BY">CC-BY</option>
+                <option selected value='CC-BY-NC'>CC-BY-NC</option>
                 <option value='CC-BY-SA'>CC-BY-SA</option>
                 <option value='CC-BY-NC-SA'>CC-BY-NC-SA</option>
                 <option value="TBA">{{_ 'To be agreed'}}</option>
@@ -15,11 +15,17 @@
         <label>
             {{_ 'Language'}}:
             <select id="add-language" class="form-control">
-                <option selected value="en">{{_ 'English'}}</option>
-                <option value="de">{{_ 'German'}}</option>
+                <option value="en">{{_ 'English'}}</option>
+                <option selected value="de">{{_ 'German'}}</option>
                 <option value="fr">{{_ 'French'}}</option>
                 <option value="es">{{_ 'Spanish'}}</option>
             </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            {{_ 'Documentation'}}:
+            <textarea rows="5" cols="60" id="add-documentation" class="form-control" value="" ></textarea>
         </label>
     </div>
 </template>
@@ -48,9 +54,16 @@
             </select>
         </label>
     </div>
+    <div>
+        <label>
+            {{_ 'Documentation'}}:
+            <textarea rows="5" cols="60" id="add-documentation" class="form-control" value={{get_documentation}} ></textarea>
+        </label>
+    </div>
 </template>
 
 <template name="print_item_details_sagecell">
     <dt>{{_ 'License'}}:</dt><dd>{{get_license}}</dd>
     <dt>{{_ 'Language'}}:</dt><dd>{{_ get_language}}</dd>
+    <dt>{{_ 'Documentation'}}:</dt><dd class="documentation">{{_ get_documentation}}</dd>
 </template>

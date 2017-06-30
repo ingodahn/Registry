@@ -149,7 +149,6 @@ Template.add_item.events({
     } else {
         var itemType=Session.get('itemType');
         var today=new Date();
-        console.log(today);
         var item={
             Title: title,
             Description: description,
@@ -167,6 +166,7 @@ Template.add_item.events({
             case 'sagecell':
                 add_item_field(item,'#add-license','license',t);
                 add_item_field(item,'#add-language','language',t);
+                add_item_field(item,'#add-documentation','documentation',t);
                 break;
             case 'scripts':
                 add_item_field(item,'#add-author','author',t);
@@ -396,6 +396,7 @@ Template.item_details.events({
           case 'sagecell':
               add_item_field(item,'#add-license','license',t);
               add_item_field(item,'#add-language','language',t);
+              add_item_field(item,'#add-documentation','documentation',t);
               break;
           case 'scripts':
               add_item_field(item,'#add-author','author',t);
