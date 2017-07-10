@@ -28,6 +28,12 @@
             </select>
         </label>
     </div>
+    <div>
+        <label>
+            {{_ 'IMS Content Package'}}:
+            <input type="text" size="60" id="add-imscp" class="form-control" value='' />
+        </label>
+    </div>
 </template>
 
 <template name="item_details_scripts">
@@ -60,12 +66,27 @@
             </select>
         </label>
     </div>
+    <div>
+        <label>
+            {{_ 'IMS Content Package'}}:
+            <input type="text" size="60" id="add-imscp" class="form-control" value={{get_format 'imscp'}} />
+        </label>
+    </div>
 </template>
 
 <template name="print_item_details_scripts">
     <dt>{{_ 'Author(s)'}}:</dt><dd>{{get_author}}</dd>
     <dt>{{_ 'License'}}:</dt><dd>{{get_license}}</dd>
     <dt>{{_ 'Language'}}:</dt><dd>{{_ get_language}}</dd>
+    <dt>{{_ 'IMS Content Package'}}:</dt><dd>{{> printFormat format='imscp'}}</dd>
+</template>
+
+<template name="printFormat">
+    {{#if has_format format}}
+        <a href="{{get_format 'imscp'}}">{{get_format format}}</a>
+    {{else}}
+        <a href="mailto:dahn@dahn-research.eu">{{_ 'Available on request'}}</a>
+    {{/if}}
 </template>
 
 <template name="list_heading_scripts">

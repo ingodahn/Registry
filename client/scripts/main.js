@@ -172,6 +172,7 @@ Template.add_item.events({
                 add_item_field(item,'#add-author','author',t);
                 add_item_field(item,'#add-license','license',t);
                 add_item_field(item,'#add-language','language',t);
+                add_item_field(item,'#add-imscp','imscp',t);
                 break;
             default:
         }
@@ -402,6 +403,7 @@ Template.item_details.events({
               add_item_field(item,'#add-author','author',t);
               add_item_field(item,'#add-license','license',t);
               add_item_field(item,'#add-language','language',t);
+              add_item_field(item,'#add-imscp','imscp',t);
               break;
           default:
       }

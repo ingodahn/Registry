@@ -34,6 +34,17 @@ Template.item_details_scripts.helpers({
             return author;
         }
         return '';
+    },
+    get_format: function(f) {
+        let item_id = Session.get('current_item');
+        if (! item_id) {
+            return '';
+        }
+        let format = items.findOne({_id: item_id})[f];
+        if (format) {
+            return format;
+        }
+        return '';
     }
 });
 
@@ -75,6 +86,31 @@ Template.print_item_details_scripts.helpers({
         let author = items.findOne({_id: item_id}).author;
         if (author) {
             return author;
+        }
+        return '';
+    }
+});
+
+Template.printFormat.helpers({
+    has_format: function(f) {
+        let item_id = Session.get('current_item');
+        if (! item_id) {
+            return false;
+        }
+        let format = items.findOne({_id: item_id})[f];
+        if (format) {
+            return true;
+        }
+        return false;
+    },
+    get_format: function(f) {
+        let item_id = Session.get('current_item');
+        if (! item_id) {
+            return '';
+        }
+        let format = items.findOne({_id: item_id})[f];
+        if (format) {
+            return format;
         }
         return '';
     }
