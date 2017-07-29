@@ -4,7 +4,6 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 // main_page
-
 Template.main_page.helpers({
     registry_heading: function() {
         var itemType=Session.get('itemType');
@@ -364,6 +363,13 @@ Template.item_details.helpers({
         } else {
             return '';
         }
+    },
+    current_item: function() {
+        //if (Session.equals('current_item',null)) {
+            return '';
+       // } else {
+       //     return Session.get('current_item');
+        //}
     }
 });
 

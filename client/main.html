@@ -1,5 +1,6 @@
 <head>
   <title>Registry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <template name="main_page">
@@ -43,7 +44,7 @@
     <div class="btn btn-primary" id="btnAdd">{{_ "Add"}}</div>
   {{/if}}
     <b>{{_ "Search"}}:</b>
-  <input type="text" id="search_term" value="{{searchTerm}}" size="40"/>
+  <input type="text" id="search_term" value="{{searchTerm}}" style="min-width: 50%"/>
   <div class="btn btn-primary" id="btnAll">{{_ "New Search"}}</div>
 </div>
     {{#if allItems}}
@@ -142,8 +143,11 @@
       <dt>{{_ 'Owner'}}:</dt><dd>{{current_owner}}</dd>
         <dt>{{_ 'Last Modified'}}:</dt><dd>{{last_modified}}</dd>
         {{> item_details_specific_print}}
-      <div class="script btn btn-primary" id="btnCancelChangeItem">Zur&uuml;ck</div>
    </dl>
+      <div class="script btn btn-primary" id="btnCancelChangeItem">Zur&uuml;ck</div>
+      <!--
+      <div><a href="mailOwner/" target="_blank">Report Problem/Contact Owner</a></div>
+      -->
   </div>
 {{/if}}
 </template>
