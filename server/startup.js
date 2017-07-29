@@ -1,5 +1,6 @@
 
 Meteor.startup(function () {
+    console.log('startup started');
   Meteor.publish("Items", function(itemType) {
     var current_user_role='none';
     if (this.userId) {
@@ -69,6 +70,7 @@ Meteor.startup(function () {
     );
     return userDetails;
   });
+    console.log('startup complete');
 });
 
 
