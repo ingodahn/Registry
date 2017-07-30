@@ -170,7 +170,7 @@
         {{#each items}}
           <tr class="{{item_status}}">
             <td data-label="{{_ 'Title'}}:"><a href="{{URL}}" target="_blank">{{Title}}</a></td>
-              <td data-label="{{_ 'Description'}}:" class="description">{{Description}}</td>
+              <td data-label="{{_ 'Description'}}:" class="description"><span class="smartBr"><br/></span>{{Description}}</td>
               {{> list_item_specific}}
             <td data-label="{{_ 'Owner'}}:">{{_ doc_owner}}</td>
             <td data-label="{{_ 'Actions'}}:">
