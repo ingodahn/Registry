@@ -169,11 +169,11 @@
         <tbody>
         {{#each items}}
           <tr class="{{item_status}}">
-            <td><a href="{{URL}}" target="_blank">{{Title}}</a></td>
-              <td class="description">{{Description}}</td>
+            <td data-label="{{_ 'Title'}}:"><a href="{{URL}}" target="_blank">{{Title}}</a></td>
+              <td data-label="{{_ 'Description'}}:" class="description">{{Description}}</td>
               {{> list_item_specific}}
-            <td>{{_ doc_owner}}</td>
-            <td>
+            <td data-label="{{_ 'Owner'}}:">{{_ doc_owner}}</td>
+            <td data-label="{{_ 'Actions'}}:">
               <div id="item_list" class="btn-group">
                 <button type="button" class="btn btn-primary edit_item">Details</button>
               </div>

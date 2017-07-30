@@ -38,7 +38,9 @@ textarea {
 }
 
 .description, .documentation{
+  /*
   max-width: 70%;
+  */
   white-space: pre-wrap;
 }
 
@@ -52,4 +54,47 @@ pre {
 
 .itemtype {
   margin: 5px;
+}
+
+@media screen and (max-width:700px) {
+/*
+  table, tr, td {
+  */
+  table, td {
+    padding:0;
+    border:1px solid black;
+  }
+
+  table {
+    border:none;
+  }
+
+  thead {
+    display:none;
+  }
+
+  tr {
+    float: left;
+    width: 100%;
+    margin-bottom: 2em;
+  }
+
+  td {
+    float: left;
+    width: 100%;
+    padding:1em;
+  }
+
+  td::before {
+    content:attr(data-label);
+    /*
+    background: #eee;
+    border-right:2px solid black;
+    */
+    width: 22%;
+    float:left;
+    padding:1em;
+    font-weight: bold;
+    margin:-1em 1em -1em -1em;
+  }
 }
