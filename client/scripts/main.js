@@ -518,7 +518,8 @@ Template.item_list.events({
 // Backup
 
 Template.Backup.helpers({
-    backupAll : function() {
+    backupAll: function() {
+        console.log('XXX');
         let deny='Admin only';
         if (! Meteor.userId()) {
             return deny;
@@ -530,27 +531,18 @@ Template.Backup.helpers({
         if (user.username != 'admin') {
             return deny;
         }
-        let backup = {};
-        let allItems=[];
-        items.find({}).forEach(
-            function(doc) {
-                allItems.push(doc);
-            }
-        );
-        let allUsers = [];
-        Meteor.users.find({}).forEach(
-            function(u) {
-                allUsers.push(u);
-            }
-        );
-        backup.items=allItems;
-        backup.users=allUsers;
-        let date = new Date();
-        backup.date=date;
-        // return JSON.stringify(backup,null,"\t");
-        let backupData=JSON.stringify(backup,null,"\t");
-        download(backupData,"regBackup.js","application/json");
-    }
+        var ready=Meteor.subscribe("AllItems").ready();
+        var backupItems=collectBackupItems();
+        if (ready) {
+            console.log(backupItems);
+            var syncFunc = Meteor.wrapAsync(sendBackupItems);
+            syncFunc(backupItems);
+        }
+        
+        return {
+            ready: ready
+        }
+    },
 });
 
 function add_item_field(item,formFieldName,itemFieldName,t) {
@@ -561,6 +553,31 @@ function add_item_field(item,formFieldName,itemFieldName,t) {
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
+
+function collectBackupItems () {
+    let backup = {};
+    let allItems=[];
+    items.find({}).forEach(
+        function(doc) {
+            allItems.push(doc);
+        }
+    );
+    let allUsers = [];
+    Meteor.users.find({}).forEach(
+        function(u) {
+            allUsers.push(u);
+        }
+    );
+    backup.items=allItems;
+    backup.users=allUsers;
+    let date = new Date();
+    backup.date=date;
+    return backup;
+};
+function sendBackupItems(backup) {
+    let backupData=JSON.stringify(backup,null,"\t");
+    download(backupData,"regBackup.js","application/json");
+};
 
 
 // General functions //

@@ -17,7 +17,7 @@ Router.route('/:itemType', function() {
     } else {
         switch(type) {
             case 'backup':
-                Meteor.subscribe("AllItems");
+                //Meteor.subscribe("AllItems").ready();
                 Session.set('itemType','all');
                 this.render('Backup');
                 break;

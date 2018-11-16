@@ -239,7 +239,13 @@
     <div class="container">
         {{> loginButtons}}
     </div>
-    <pre id="backup">
-    {{backupAll}}
-    </pre>
+    <div>
+    {{#with backupAll}}
+     {{#if ready}}
+      <p>Data ready...</p>
+      {{else}}
+         <p>Loading data...</p>
+      {{/if}}
+    {{/with}}
+</div>
 </template>
