@@ -519,7 +519,7 @@ Template.item_list.events({
 
 Template.Backup.helpers({
     backupAll: function() {
-        console.log('XXX');
+        /*
         let deny='Admin only';
         if (! Meteor.userId()) {
             return deny;
@@ -531,6 +531,7 @@ Template.Backup.helpers({
         if (user.username != 'admin') {
             return deny;
         }
+        */
         var ready=Meteor.subscribe("AllItems").ready();
         var backupItems=collectBackupItems();
         if (ready) {
