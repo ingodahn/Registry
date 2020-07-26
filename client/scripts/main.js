@@ -1,4 +1,4 @@
-// Imports 
+// Imports
 
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -349,7 +349,7 @@ Template.item_details.helpers({
     let item_id = Session.get('current_item');
     if (items.findOne({_id: item_id}).owner == this._id) {
       return 'selected';
-    } 
+    }
     return '';
   },
     last_modified: function () {
@@ -536,13 +536,19 @@ Template.Backup.helpers({
         var backupItems=collectBackupItems();
         if (ready) {
             console.log(backupItems);
-            var syncFunc = Meteor.wrapAsync(sendBackupItems);
-            syncFunc(backupItems);
+            //var syncFunc = Meteor.wrapAsync(sendBackupItems);
+            //syncFunc(backupItems);
+            let backupString = sendBackupItems(backupItems);
+            //var FileSaver = require('filesaver');
+            var blob=new Blob([backupString],{type: "text/plain;charset=utf-8"});
+            saveAs(blob,"backup.txt");
+            return backupString;
         }
-        
+/*
         return {
             ready: ready
         }
+        */
     },
 });
 
@@ -570,14 +576,16 @@ function collectBackupItems () {
         }
     );
     backup.items=allItems;
-    backup.users=allUsers;
+    let user=Meteor.users.findOne({_id: Meteor.userId()});
+    if (user && user.username == 'admin')
+      backup.users=allUsers;
     let date = new Date();
     backup.date=date;
     return backup;
 };
 function sendBackupItems(backup) {
-    let backupData=JSON.stringify(backup,null,"\t");
-    download(backupData,"regBackup.js","application/json");
+    return JSON.stringify(backup,null,"\t");
+    //download(backupData,"regBackup.js","application/json");
 };
 
 

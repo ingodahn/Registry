@@ -20,6 +20,9 @@
             {{/if}}
         {{_ registry_heading}}
     </h2>
+    {{#if is_admin}}
+      <p><a href="/backup" target="_blank">Backup</a></p>
+      {{/if}}
     <div id="items-container" class="container">
       {{> content}}
     </div>
@@ -80,11 +83,11 @@
         </label>
     </div><div>
         <label>
-        URL: 
+        URL:
           <input type="url" size="60" id="add-url" class="form-control" value="https://" />
         </label>
     </div><div>
-        <label>Status: 
+        <label>Status:
           <select id="add-status" class="form-control">
             <option selected value='public'>{{_ 'Public'}}</option>
             <option value='private'>{{_ 'Private'}}</option>
@@ -115,12 +118,12 @@
                 <option {{selected_user}} value="{{this._id}}">{{this.username}}</option>
               {{/each}}
             </select>
-          </label></div> 
+          </label></div>
         {{else}}
             <p><b>{{_ 'Owner'}}:</b> {{current_owner}}</p>
         {{/if}}
         <div>
-        <label>Status: 
+        <label>Status:
           <select id="status" class="form-control">
             <option {{selected_status 'public'}} value='public'>{{_ 'Public'}}</option>
             <option {{selected_status 'private'}} value='private'>{{_ 'Private'}}</option>
@@ -235,17 +238,10 @@
 </template>
 
 <template name="Backup">
-    <script src='//js.zapjs.com/js/download.js'></script>
-    <div class="container">
-        {{> loginButtons}}
-    </div>
     <div>
-    {{#with backupAll}}
-     {{#if ready}}
-      <p>Data ready...</p>
-      {{else}}
-         <p>Loading data...</p>
-      {{/if}}
-    {{/with}}
+      <pre>
+        {{ backupAll }}
+      </pre>
 </div>
+
 </template>

@@ -44,6 +44,7 @@ Meteor.startup(function () {
         } else {
             current_user_role = 'guest';
         }
+
         switch(current_user_role) {
             case 'admin':
                 return items.find({},{fields: {}});
@@ -72,5 +73,3 @@ Meteor.startup(function () {
   });
     console.log('startup complete');
 });
-
-
