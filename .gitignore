@@ -2,3 +2,4 @@ node_modules/
 mup.js
 server/smtp.js
 .idea/
+.deploy/
